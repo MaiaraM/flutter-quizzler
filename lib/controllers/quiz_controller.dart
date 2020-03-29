@@ -2,6 +2,7 @@ import 'package:quizzler/models/question.dart';
 
 class QuizController {
   int _numberQuestion = 0;
+  bool isFinished = false;
 
   List<Question> _questionsBank = [
     Question('Some cats are actually allergic to humans', true),
@@ -32,8 +33,12 @@ class QuizController {
   ];
 
   void nextQuestion() {
-    if (_numberQuestion < _questionsBank.length - 1) {
+    if (_numberQuestion < 5) {
+      isFinished = false;
       _numberQuestion++;
+    } else {
+      isFinished = true;
+      _numberQuestion = 0;
     }
   }
 

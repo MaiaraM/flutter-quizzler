@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizzler/controllers/quiz_controller.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 QuizController quizController = QuizController();
 void main() => runApp(Quizzler());
@@ -45,8 +46,15 @@ class _QuizPageState extends State<QuizPage> {
         resultList[quizController.getNumber()] =
             Icon(Icons.clear, color: Colors.red);
       }
-
       quizController.nextQuestion();
+
+      if (quizController.isFinished) {
+        resultList = [];
+        for (var i = 0; i <= 5; i++) {
+          resultList.add(Icon(Icons.adjust, color: Colors.grey));
+        }
+        Alert(context: context, title: "Finished", desc: "You Finisehd").show();
+      }
     });
   }
 
