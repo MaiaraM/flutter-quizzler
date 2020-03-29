@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:quizzler/controllers/quiz_controller.dart';
 
+QuizController quizController = QuizController();
 void main() => runApp(Quizzler());
 
 class Quizzler extends StatelessWidget {
@@ -26,12 +28,27 @@ class QuizPage extends StatefulWidget {
 
 class _QuizPageState extends State<QuizPage> {
   List<Icon> resultList = [
-    Icon(Icons.check, color: Colors.green),
-    Icon(Icons.clear, color: Colors.red),
+    Icon(Icons.adjust, color: Colors.grey),
+    Icon(Icons.adjust, color: Colors.grey),
+    Icon(Icons.adjust, color: Colors.grey),
     Icon(Icons.adjust, color: Colors.grey),
     Icon(Icons.adjust, color: Colors.grey),
     Icon(Icons.adjust, color: Colors.grey),
   ];
+
+  void verifyAnswer(bool a) {
+    setState(() {
+      if (a == quizController.getAnswer()) {
+        resultList[quizController.getNumber()] =
+            Icon(Icons.check, color: Colors.green);
+      } else {
+        resultList[quizController.getNumber()] =
+            Icon(Icons.clear, color: Colors.red);
+      }
+
+      quizController.nextQuestion();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +69,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                'This is where the question text will go.',
+                quizController.getQuestion(),
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 25.0,
@@ -76,7 +93,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                //The user picked true.
+                verifyAnswer(true);
               },
             ),
           ),
@@ -94,7 +111,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                //The user picked false.
+                verifyAnswer(false);
               },
             ),
           ),
